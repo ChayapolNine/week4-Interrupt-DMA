@@ -46,6 +46,12 @@ UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
 	uint32_t adcRawData;
+	uint16_t bufferdata[20];
+	float voltdata = 0;
+	float tempdata = 0;
+	float Ansvolt = 0;
+	float AnstempC = 0;
+	float AnstempK = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -103,8 +109,18 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-
     /* USER CODE BEGIN 3 */
+	  voltdata = (bufferdata[1]+bufferdata[3]+bufferdata[5]
+				+bufferdata[7]+bufferdata[9]+bufferdata[11]
+				+bufferdata[13]+bufferdata[15]+bufferdata[17]
+				+bufferdata[19])/10;
+	  tempdata = (bufferdata[0]+bufferdata[2]+bufferdata[4]
+				+bufferdata[6]+bufferdata[8]+bufferdata[10]
+				+bufferdata[12]+bufferdata[14]+bufferdata[16]
+				+bufferdata[18])/10;
+	  Ansvolt = (((voltdata/4096)*3.3)*1000)*2;
+	  AnstempC =(((tempdata*(3.3/4096))-0.0025)/0.76) + 25;
+	  AnstempK = AnstempC + 273.15;
   }
   /* USER CODE END 3 */
 }
@@ -306,14 +322,14 @@ static void MX_GPIO_Init(void)
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
 	if(GPIO_Pin == GPIO_PIN_13){
-	HAL_ADC_Start_IT(&hadc1);
+	HAL_ADC_Start_DMA(&hadc1, bufferdata, 20);
 	}
 
 }
-void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
-{
-	adcRawData = HAL_ADC_GetValue(&hadc1);
-}
+//void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
+//{
+//	adcRawData = HAL_ADC_GetValue(&hadc1);
+//}
 /* USER CODE END 4 */
 
 /**

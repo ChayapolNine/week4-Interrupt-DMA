@@ -110,17 +110,22 @@ int main(void)
   {
     /* USER CODE END WHILE */
     /* USER CODE BEGIN 3 */
-	  voltdata = (bufferdata[1]+bufferdata[3]+bufferdata[5]
-				+bufferdata[7]+bufferdata[9]+bufferdata[11]
-				+bufferdata[13]+bufferdata[15]+bufferdata[17]
-				+bufferdata[19])/10;
-	  tempdata = (bufferdata[0]+bufferdata[2]+bufferdata[4]
-				+bufferdata[6]+bufferdata[8]+bufferdata[10]
-				+bufferdata[12]+bufferdata[14]+bufferdata[16]
-				+bufferdata[18])/10;
-	  Ansvolt = (((voltdata/4096)*3.3)*1000)*2;
-	  AnstempC =(((tempdata*(3.3/4096))-0.0025)/0.76) + 25;
-	  AnstempK = AnstempC + 273.15;
+	  static uint32_t timestamp=0;
+	  if(HAL_GetTick()>=timestamp){
+		  timestamp =HAL_GetTick() + 1000; // 1 Hz
+		  voltdata = (bufferdata[1]+bufferdata[3]+bufferdata[5]
+					+bufferdata[7]+bufferdata[9]+bufferdata[11]
+					+bufferdata[13]+bufferdata[15]+bufferdata[17]
+					+bufferdata[19])/10;
+		  tempdata = (bufferdata[0]+bufferdata[2]+bufferdata[4]
+					+bufferdata[6]+bufferdata[8]+bufferdata[10]
+					+bufferdata[12]+bufferdata[14]+bufferdata[16]
+					+bufferdata[18])/10;
+		  Ansvolt = (((voltdata/4096)*3.3)*1000)*2;
+		  AnstempC =(((tempdata*(3.3/4096))-0.0025)/0.76) + 25;
+		  AnstempK = AnstempC + 273.15;
+	  }
+
   }
   /* USER CODE END 3 */
 }

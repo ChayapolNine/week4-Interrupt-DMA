@@ -101,7 +101,7 @@ int main(void)
   MX_USART2_UART_Init();
   MX_ADC1_Init();
   /* USER CODE BEGIN 2 */
-
+  HAL_ADC_Start_DMA(&hadc1, bufferdata, 20);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -324,13 +324,13 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
-{
-	if(GPIO_Pin == GPIO_PIN_13){
-	HAL_ADC_Start_DMA(&hadc1, bufferdata, 20);
-	}
-
-}
+//void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+//{
+//	if(GPIO_Pin == GPIO_PIN_13){
+//	HAL_ADC_Start_DMA(&hadc1, bufferdata, 20);
+//	}
+//
+//}
 //void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 //{
 //	adcRawData = HAL_ADC_GetValue(&hadc1);

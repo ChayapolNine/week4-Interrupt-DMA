@@ -121,8 +121,8 @@ int main(void)
 					+bufferdata[6]+bufferdata[8]+bufferdata[10]
 					+bufferdata[12]+bufferdata[14]+bufferdata[16]
 					+bufferdata[18])/10;
-		  Ansvolt = (((voltdata/4096)*3.3)*1000)*2;
-		  AnstempC =(((tempdata*(3.3/4096))-0.0025)/0.76) + 25;
+		  Ansvolt = (((voltdata/4095)*3.3)*1000)*2;
+		  AnstempC =(((tempdata*(3.3/4095))-0.0025)/0.76) + 25;
 		  AnstempK = AnstempC + 273.15;
 	  }
 
